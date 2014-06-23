@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+                           
+    <bean id="customModuleConfiguration" parent="customModuleConfiguration-parentBean" />
+    
+    <bean id="customModuleConfiguration-parentBean" class="org.kuali.rice.kns.bo.ModuleConfiguration" abstract="true">
+        <property name="databaseRepositoryFilePaths">
+            <list>
+                <value>org/kuali/kra/custom/repository-custom.xml</value>
+            </list>
+        </property>
+    </bean>
+    
+</beans>

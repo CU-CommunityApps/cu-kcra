@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>edu.cornell.kra</groupId>
+  <artifactId>kc-war</artifactId>
+  <packaging>war</packaging>
+  <name>KC war</name>
+  <version>6.0.0</version>
+  <description>
+    This project wraps the KC war with a war overlay.
+  </description>
+  <url>https://github.com/CU-CommunityApps</url>
+  <inceptionYear>2014</inceptionYear>
+  <organization>
+    <name>Cornell University</name>
+    <url>http://www.cornell.edu/</url>
+  </organization>
+
+
+  <properties>
+	<job.name>${project.artifactId}</job.name>
+	<rice.version>2.1.9</rice.version>
+	<cynergy.version>2.3.4</cynergy.version>
+	<kc.version>6.0.0</kc.version>
+	<cynergy.development>true</cynergy.development>
+	<oracle.version>11.2.0.3</oracle.version>
+  </properties> 
+  
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.3</version>
+          <configuration>
+            <archive>
+                <manifest>
+                	<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                </manifest>
+                <manifestEntries>
+                	<Implementation-Build>${buildNumber}</Implementation-Build>
+                </manifestEntries>
+            </archive>
+            
+            <overlays>
+              <overlay>
+                <groupId>org.kuali.kc</groupId>
+                <artifactId>kc-stock</artifactId>
+                <excludes>
+					<!-- <exclude>WEB-INF/lib/rice*.jar</exclude> -->
+                </excludes>
+              </overlay>
+            </overlays>
+          </configuration>
+      </plugin>
+    </plugins>
+    
+    <resources>
+        <!-- the normal resource dir -->
+        <resource>
+          <directory>src/main/resources</directory>
+          <filtering>true</filtering>
+        </resource>
+    </resources>
+    
+  </build>
+
+  <repositories>
+    <repository>
+      <id>kuali</id>
+      <name>Kuali Repository</name>
+      <url>https://test.kuali.org/maven</url>
+    </repository>
+    <repository>
+      <id>cornell-internal</id>
+      <url>https://maven.cit.cornell.edu/repository/internal</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>cornell-snapshots</id>
+      <url>https://maven.cit.cornell.edu/repository/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>edu.cornell.cynergy </groupId>
+      <artifactId>cynergy-customizations</artifactId>
+      <version>${cynergy.version}</version>
+      <exclusions>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.kuali.kc</groupId>
+      <artifactId>kc-stock</artifactId>
+      <version>${kc.version}</version>
+      <type>war</type>
+    </dependency>
+          
+	<!-- our oracle is better -->
+	<dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc6</artifactId>
+		<version>${oracle.version}</version>
+	</dependency>
+
+    <dependency>
+        <groupId>xapool</groupId>
+        <artifactId>xapool</artifactId>
+        <version>1.5.0-patch</version>
+        <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+  
+  <distributionManagement>
+    <repository>
+      <id>cornell-internal</id>
+      <url>https://maven.cit.cornell.edu/repository/internal/</url>
+    </repository>
+    <snapshotRepository>
+      <id>cornell-snapshots</id>
+      <url>https://maven.cit.cornell.edu/repository/snapshots/</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+  </distributionManagement>
+</project>
